@@ -14,33 +14,38 @@ class Rover
     @orientation = orientation
   end
 
-  def move(commands, max_x, max_y, min_x = 0, min_y = 0)
+  def rotate(degree)
+    current_deg = @@map_orientation_to_deg[@orientation]
+    new_deg = current_deg + degree
+    if new_deg >= 360
+      new_deg -= 360
+    elsif new_deg < 0
+      new_deg += 360
+    end
+    @orientation = @@map_deg_to_orientation[new_deg]
+  end
+  
+  def move(max_x, max_y, min_x, min_y)
+    new_x = @x + @@map_orientation_to_movement[@orientation][0]
+    new_y = @y + @@map_orientation_to_movement[@orientation][1]
+    if(new_x.between?(min_x,max_x) && new_y.between?(min_y,max_y))
+      @x = new_x
+      @y = new_y
+    end
+  end
+
+  def give_commands(commands, max_x, max_y, min_x = 0, min_y = 0)
     command_number = 0
     number_of_commands = commands.size
     while command_number < number_of_commands
       command = commands[command_number]
       case command
         when 'L'
-          current_deg = @@map_orientation_to_deg[@orientation]
-          new_deg = current_deg + 90
-          if new_deg >= 360
-            new_deg -= 360
-          end
-          @orientation = @@map_deg_to_orientation[new_deg]
+          rotate 90
         when 'R'
-          current_deg = @@map_orientation_to_deg[@orientation]
-          new_deg = current_deg - 90
-          if new_deg < 0
-            new_deg += 360
-          end
-          @orientation = @@map_deg_to_orientation[new_deg]
+          rotate -90
         when 'M'
-          new_x = @x + @@map_orientation_to_movement[@orientation][0]
-          new_y = @y + @@map_orientation_to_movement[@orientation][1]
-          if(new_x.between?(min_x,max_x) && new_y.between?(min_y,max_y))
-            @x = new_x
-            @y = new_y
-          end
+          move(max_x,max_y,min_x,min_y)
       end
       command_number +=1
     end
