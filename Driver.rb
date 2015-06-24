@@ -1,6 +1,6 @@
 require "./Rover.rb"
 def main
-  puts "Enter plateau Dimensions:"
+  puts "Enter plateau Dimensions (x y):"
   done = false
   while !done
     begin
@@ -12,12 +12,12 @@ def main
       done = true
       raise RuntimeError if max_x == nil || max_y == nil
     rescue
-      puts "Enter Valid Plateau Dimensions:"
+      puts "Enter Valid Plateau Dimensions (x y):"
       done = false
     end
   end
   while true
-    puts "Enter x, y, orientation: "
+    puts "Enter initial configuration (x y orientation): "
     line1 = gets.chomp.split
     done = false
     while !done
@@ -32,7 +32,7 @@ def main
         orientation = line1[2]
       rescue
         done = false
-        puts "Enter valid x, y, orientation: "
+        puts "Enter valid initial configuration (x y orientation): "
         line1 = gets.chomp.split
       end
     end

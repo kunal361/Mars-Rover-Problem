@@ -8,7 +8,8 @@ class Rover
   @@map_deg_to_orientation = {0 => "N", 90 => "W", 180 => "S", 270 => "E"}
   @@map_orientation_to_movement = {"N" => [0, 1], "W" => [-1, 0], "S" => [0, -1], "E" => [1, 0]}
 
-  def initialize(x, y, orientation)
+  def initialize(x = 0, y = 0, orientation = "N")
+    raise "Not a valid configuration" if x.class != Fixnum || y.class != Fixnum || orientation.length != 1 || !orientation[/[NEWS]/]
     @x = x
     @y = y
     @orientation = orientation
@@ -44,7 +45,9 @@ class Rover
   end
 
   def give_commands(commands, max_x, max_y, min_x = 0, min_y = 0)
+    
     raise "Invalid Rover, lies outside plateau!" if !@x.between?(min_x,max_x) || !@y.between?(min_y,max_y)
+    
     command_number = 0
     number_of_commands = commands.size
     while command_number < number_of_commands
