@@ -1,5 +1,6 @@
 require "./Rover.rb"
 def main
+  #-----------Input-Dimension-----------
   puts "Enter plateau Dimensions (x y):"
   done = false
   while !done
@@ -17,6 +18,7 @@ def main
     end
   end
   while true
+    #-----------Input-Initial Configuration-----------
     puts "Enter initial configuration (x y orientation): "
     line1 = gets.chomp.split
     done = false
@@ -38,6 +40,7 @@ def main
     end
     break if line1.size == 0
     done = false
+    #-----------Input-Commands-----------
     puts "Enter commands: "
     while !done
       begin
@@ -49,6 +52,7 @@ def main
         puts "Enter valid commands: "
       end
     end
+    #---------------------------------
     rover = Rover.new(x, y, orientation)
     rover.give_commands(line2, max_x, max_y)
     puts "#{rover.x} #{rover.y} #{rover.orientation}"
