@@ -14,11 +14,16 @@ class TestRover < Test::Unit::TestCase
     rover.rotate(-90)
     assert_equal("1 2 E", "#{rover.x} #{rover.y} #{rover.orientation}")
     ################################################################################
+    rover = Rover.new(1,2,"N")
+    rover.rotate(-900)
+    assert_equal("1 2 S", "#{rover.x} #{rover.y} #{rover.orientation}")
+    ################################################################################
     assert_raise RuntimeError do
       rover = Rover.new(1,2,"N")
       rover.rotate(-125)
     end
     ################################################################################
+    
   end
 
   def test_move

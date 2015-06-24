@@ -20,9 +20,10 @@ class Rover
     
     current_deg = @@map_orientation_to_deg[@orientation]
     new_deg = current_deg + degree
-    if new_deg >= 360
+    while new_deg >= 360
       new_deg -= 360
-    elsif new_deg < 0
+    end
+    while new_deg < 0
       new_deg += 360
     end
     @orientation = @@map_deg_to_orientation[new_deg]
