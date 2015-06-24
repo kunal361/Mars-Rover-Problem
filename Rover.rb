@@ -15,6 +15,9 @@ class Rover
   end
 
   def rotate(degree)
+    
+    raise "Not a valid rotation, as #{degree} is not a multiple of 90!" if degree%90 != 0
+    
     current_deg = @@map_orientation_to_deg[@orientation]
     new_deg = current_deg + degree
     if new_deg >= 360
@@ -25,7 +28,10 @@ class Rover
     @orientation = @@map_deg_to_orientation[new_deg]
   end
   
-  def move(max_x, max_y, min_x, min_y)
+  def move(max_x, max_y, min_x = 0, min_y = 0)
+    
+    raise "Dimensions not valid!" if max_x < min_x || max_y < min_y
+    
     new_x = @x + @@map_orientation_to_movement[@orientation][0]
     new_y = @y + @@map_orientation_to_movement[@orientation][1]
     if(new_x.between?(min_x,max_x) && new_y.between?(min_y,max_y))
@@ -46,6 +52,8 @@ class Rover
           rotate -90
         when 'M'
           move(max_x,max_y,min_x,min_y)
+        else
+          raise "Invalid Input: Required one of ['L', 'R', 'M'], found #{command}."
       end
       command_number +=1
     end
