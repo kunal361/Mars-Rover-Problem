@@ -17,6 +17,7 @@ class Rover
   def rotate(degree)
     
     raise "Not a valid rotation, as #{degree} is not a multiple of 90!" if degree%90 != 0
+    raise "Not a valid rotation, as #{degree} is not an Integer!" if degree.class != Fixnum
     
     current_deg = @@map_orientation_to_deg[@orientation]
     new_deg = current_deg + degree
@@ -32,6 +33,7 @@ class Rover
   def move(max_x, max_y, min_x = 0, min_y = 0)
     
     raise "Dimensions not valid!" if max_x < min_x || max_y < min_y
+    raise "Dimensions must be integers!" if max_x.class != Fixnum || max_y.class != Fixnum || min_x.class != Fixnum || min_y.class != Fixnum 
     
     new_x = @x + @@map_orientation_to_movement[@orientation][0]
     new_y = @y + @@map_orientation_to_movement[@orientation][1]
@@ -42,6 +44,7 @@ class Rover
   end
 
   def give_commands(commands, max_x, max_y, min_x = 0, min_y = 0)
+    raise "Invalid Rover, lies outside plateau!" if !@x.between?(min_x,max_x) || !@y.between?(min_y,max_y)
     command_number = 0
     number_of_commands = commands.size
     while command_number < number_of_commands
